@@ -1,7 +1,6 @@
 package atividade.estagio.mensageria_docker.entity;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -27,12 +26,12 @@ public class Recarga {
     @Column(name = "correlation_id")
     private String correlationId;
 
-    @JsonIgnore
+
     @ManyToOne
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
-    @JsonIgnore
+
     @ManyToOne
     @JoinColumn(name = "metodo_pagamento_id")
     private MetodoPagamento metodoPagamento;
