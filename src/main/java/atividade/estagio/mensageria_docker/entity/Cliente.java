@@ -17,10 +17,10 @@ public class Cliente {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "nome", length=200)
+    @Column(name = "nome", length=200, unique = true)
     private String nome;
 
-    @Column(name = "email", length=200)
+    @Column(name = "email", length=200, unique = true)
     private String email;
 
     @JsonIgnore
