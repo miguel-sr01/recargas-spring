@@ -3,11 +3,12 @@ package atividade.estagio.mensageria_docker.entity;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Entity
 @Table(name = "recargas")
-public class Recarga {
+public class Recarga implements Serializable {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -20,8 +21,9 @@ public class Recarga {
     @Column(name = "valor")
     private BigDecimal valor;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private String status;
+    private StatusRecarga status;
 
     @Column(name = "correlation_id")
     private String correlationId;
@@ -36,7 +38,7 @@ public class Recarga {
     @JoinColumn(name = "metodo_pagamento_id")
     private MetodoPagamento metodoPagamento;
 
-    public Recarga(String numeroCelular, BigDecimal valor, String status, String correlationId) {
+    public Recarga(String numeroCelular, BigDecimal valor, StatusRecarga status, String correlationId) {
         this.numeroCelular = numeroCelular;
         this.valor = valor;
         this.status = status;
@@ -71,11 +73,11 @@ public class Recarga {
         this.valor = valor;
     }
 
-    public String getStatus() {
+    public StatusRecarga getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(StatusRecarga status) {
         this.status = status;
     }
 
