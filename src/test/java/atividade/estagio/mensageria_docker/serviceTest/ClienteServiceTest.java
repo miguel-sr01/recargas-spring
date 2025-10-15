@@ -17,6 +17,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Collections;
 import java.util.List;
 
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+
 @ExtendWith(MockitoExtension.class)
 class ClienteServiceTest {
 
@@ -32,8 +35,8 @@ class ClienteServiceTest {
     private ClienteService clienteService;
 
     @Test
-    @DisplayName("Deve retornar uma lista e retornar o numero de cadastros")
-    void deveRetornarListaClientes() {
+    @DisplayName("Deve verificar se a linha possui tamanho 1")
+    void deveVerificarTamanhoLista() {
         //Arrange (Preparar / Montar o cenário)
         Cliente cliente = new Cliente("Miguel", "miguelsr@ufu.br");
         Mockito.when(clienteRepository.findAll()).thenReturn(Collections.singletonList(cliente));
@@ -44,6 +47,8 @@ class ClienteServiceTest {
         //Assert (Verificar / Afirmar)
         Assertions.assertNotNull(lista);
         Assertions.assertEquals(1, lista.size());
+        Assertions.assertEquals("Miguel", lista.get(0).getNome());
+        verify(clienteRepository, times(1)).findAll();
 
     }
 
@@ -61,23 +66,26 @@ class ClienteServiceTest {
         Assertions.assertNotNull(novoCliente);
         Assertions.assertEquals("Miguel", novoCliente.getNome());
         Assertions.assertEquals("miguelsr@ufu.br", novoCliente.getEmail());
+        verify(clienteRepository, times(1)).save(novoCliente);
 
     }
 
     @Test
+    @DisplayName("Deve editar o email e verificar se foi atualizado")
     void deveEditarCliente() {
         //Arrange (Preparar / Montar o cenário)
         Cliente cliente = new Cliente("Miguel", "miguelsr@ufu.br");
+        cliente.setEmail("miguel.sanches@gmail.com");
         Mockito.when(clienteRepository.save(cliente)).thenReturn(cliente);
 
         //Act (Agir / Executar)
-        Cliente novoCliente = clienteService.cadastrarCliente(cliente);
+        Cliente novoCliente = clienteService.editarCliente(cliente);
 
         //Assert (Verificar / Afirmar)
         Assertions.assertNotNull(novoCliente);
         Assertions.assertEquals("Miguel", novoCliente.getNome());
-        Assertions.assertEquals("miguelsr@ufu.br", novoCliente.getEmail());
-
+        Assertions.assertEquals("miguel.sanches@gmail.com", novoCliente.getEmail());
+        verify(clienteRepository, times(1)).save(novoCliente);
     }
 
     @Test
@@ -89,12 +97,17 @@ class ClienteServiceTest {
         Mockito.when(clienteRepository.existsById(id)).thenReturn(true); // Simula que o passageiro existe
         Mockito.doNothing().when(clienteRepository).deleteById(id);
 
-        // Act
-        clienteService.excluirCliente(id);
+        try{
+            // Act
+            clienteService.excluirCliente(id);
 
-        // Assert
-        // Verifica se o deleteById foi realmente chamado uma vez
-        Mockito.verify(clienteRepository, Mockito.times(1)).deleteById(id);
+            // Assert
+            // Verifica se o deleteById foi realmente chamado uma vez
+            Mockito.verify(clienteRepository, Mockito.times(1)).deleteById(id);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
 

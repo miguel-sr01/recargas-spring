@@ -16,6 +16,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Collections;
 import java.util.List;
 
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+
 @ExtendWith(MockitoExtension.class)
 class MetodosPagamentoServiceTest {
 
@@ -28,7 +31,7 @@ class MetodosPagamentoServiceTest {
     private MetodoPagamentoService metodoPagamentoService;
 
     @Test
-    @DisplayName("Deve retornar uma lista de metodos de pagamento")
+    @DisplayName("Deve verificar se a linha possui tamanho 1")
     void deveRetornarListaMetodos() {
         //Arrange (Preparar / Montar o cenário)
         MetodoPagamento metodoPagamento = new MetodoPagamento("PIX");
@@ -40,6 +43,8 @@ class MetodosPagamentoServiceTest {
         //Assert (Verificar / Afirmar)
         Assertions.assertNotNull(lista);
         Assertions.assertEquals(1, lista.size());
+        Assertions.assertEquals("PIX", lista.get(0).getTipo());
+        verify(metodoPagamentoRepository, times(1)).findAll();
 
     }
 
@@ -56,14 +61,15 @@ class MetodosPagamentoServiceTest {
         //Assert (Verificar / Afirmar)
         Assertions.assertNotNull(novoMetodo);
         Assertions.assertEquals("PIX", novoMetodo.getTipo());
-
+        verify(metodoPagamentoRepository, times(1)).save(novoMetodo);
     }
 
     @Test
     @DisplayName("Deve editar um metodo e verificar seu tipo")
     void deveEditarMetodo() {
         //Arrange (Preparar / Montar o cenário)
-        MetodoPagamento metodoPagamento = new MetodoPagamento("BOLETO");
+        MetodoPagamento metodoPagamento = new MetodoPagamento("PIX");
+        metodoPagamento.setTipo("BOLETO");
         Mockito.when(metodoPagamentoRepository.save(metodoPagamento)).thenReturn(metodoPagamento);
 
         //Act (Agir / Executar)
@@ -72,6 +78,7 @@ class MetodosPagamentoServiceTest {
         //Assert (Verificar / Afirmar)
         Assertions.assertNotNull(novoMetodo);
         Assertions.assertEquals("BOLETO", novoMetodo.getTipo());
+        verify(metodoPagamentoRepository, times(1)).save(novoMetodo);
 
     }
 

@@ -20,6 +20,9 @@ import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+
 @ExtendWith(MockitoExtension.class)
 class RecargaServiceTest {
 
@@ -36,7 +39,7 @@ class RecargaServiceTest {
     private RecargaService recargaService;
 
     @Test
-    @DisplayName("Deve retornar uma lista e retornar o numero de recargas")
+    @DisplayName("Deve verificar se a linha possui tamanho 1")
     void deveRetornarListaClientes() {
         //Arrange (Preparar / Montar o cenário)
         Recarga recarga = new Recarga("123456", BigDecimal.ONE, StatusRecarga.SUCESSO, "1010");
@@ -48,6 +51,8 @@ class RecargaServiceTest {
         //Assert (Verificar / Afirmar)
         Assertions.assertNotNull(lista);
         Assertions.assertEquals(1, lista.size());
+        Assertions.assertEquals("123456", lista.get(0).getNumeroCelular());
+        verify(recargaRepository, times(1)).findAll();
 
     }
 
@@ -65,13 +70,16 @@ class RecargaServiceTest {
         Assertions.assertNotNull(novaRecarga);
         Assertions.assertEquals("123456", novaRecarga.getNumeroCelular());
         Assertions.assertEquals(StatusRecarga.PENDENTE, novaRecarga.getStatus());
+        verify(recargaRepository, times(1)).save(novaRecarga);
 
     }
 
     @Test
+    @DisplayName("Deve editar um metodo e verificar seu numero de celular")
     void deveEditarRecarga() {
         //Arrange (Preparar / Montar o cenário)
         Recarga recarga = new Recarga("123456", BigDecimal.ONE, StatusRecarga.SUCESSO, "1010");
+        recarga.setNumeroCelular("999999");
         Mockito.when(recargaRepository.save(recarga)).thenReturn(recarga);
 
         //Act (Agir / Executar)
@@ -79,7 +87,8 @@ class RecargaServiceTest {
 
         //Assert (Verificar / Afirmar)
         Assertions.assertNotNull(novaRecarga);
-        Assertions.assertEquals("123456", novaRecarga.getNumeroCelular());
+        Assertions.assertEquals("999999", novaRecarga.getNumeroCelular());
+        verify(recargaRepository, times(1)).save(novaRecarga);
 
     }
 
