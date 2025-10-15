@@ -23,6 +23,12 @@ public class RecargaController {
         return ResponseEntity.status(200).body(lista);
     }
 
+    @GetMapping("/cliente/{clienteId}")
+    public ResponseEntity<List<Recarga>> listarClienteId(@PathVariable Long id){
+        List <Recarga> lista = recargaService.listarClientesId(id);
+        return ResponseEntity.status(200).body(lista);
+    }
+
     @PostMapping
     public ResponseEntity<Recarga> novaRecarga(@RequestBody Recarga recarga){
         Recarga novaRecarga = recargaService.cadastrarRecarga(recarga);

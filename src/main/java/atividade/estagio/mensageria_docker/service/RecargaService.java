@@ -23,6 +23,10 @@ public class RecargaService {
         return recargaRepository.findAll();
     }
 
+    public List <Recarga> listarClientesId(Long id){
+        return recargaRepository.findByClienteId(id);
+    }
+
     public Recarga cadastrarRecarga(Recarga recarga){
         recarga.setStatus(StatusRecarga.PENDENTE);
         Recarga salva = recargaRepository.save(recarga);

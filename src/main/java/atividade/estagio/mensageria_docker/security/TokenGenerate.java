@@ -1,13 +1,9 @@
-
-
 package atividade.estagio.mensageria_docker.security;
 
-
-import io.github.cdimascio.dotenv.Dotenv;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
+import org.springframework.beans.factory.annotation.Value;
+
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
@@ -16,22 +12,11 @@ import java.util.Date;
 @Component
 public class TokenGenerate {
 
-    private final Dotenv dotenv = Dotenv.load();
+    @Value("${jwt.secret}")
+    private String SECRET_KEY;
 
-    @Bean
-    public String jwtSecret() {
-        return dotenv.get("JWT_SECRET");
-    }
-
-    @Bean
-    public long jwtExpiration() {
-        return Long.parseLong(dotenv.get("JWT_EXPIRATION"));
-    }
-
-    //Colocar em um .env futuramente
-    private final String SECRET_KEY = jwtSecret();// mínimo 32 caracteres pro algoritmo HMAC funcionar
-
-    private final long EXPIRATION_TIME = jwtExpiration(); // 1 hora em milissegundos
+    @Value("${jwt.expiration}")
+    private long EXPIRATION_TIME;
 
     //Constrói uma chave Key a partir da SECRET_KEY.
     private Key getSigningKey() {
@@ -40,7 +25,7 @@ public class TokenGenerate {
 
     // Começa a construção do token JWT.
     public String generateToken(String username) {
-        System.out.println("aquiii");
+        System.out.println("Testando Token JWT");
         System.out.println(SECRET_KEY);
         System.out.println(EXPIRATION_TIME);
         return Jwts.builder()
