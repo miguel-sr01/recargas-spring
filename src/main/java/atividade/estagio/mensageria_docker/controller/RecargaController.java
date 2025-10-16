@@ -31,7 +31,7 @@ public class RecargaController {
 
     @PostMapping
     public ResponseEntity<Recarga> novaRecarga(@RequestBody Recarga recarga){
-        Recarga novaRecarga = recargaService.cadastrarRecarga(recarga);
+        Recarga novaRecarga = recargaService.novaRecarga(recarga);
         return ResponseEntity.status(201).body(novaRecarga);
     }
 

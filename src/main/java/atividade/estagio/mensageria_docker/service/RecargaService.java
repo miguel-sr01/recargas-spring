@@ -27,7 +27,7 @@ public class RecargaService {
         return recargaRepository.findByClienteId(id);
     }
 
-    public Recarga cadastrarRecarga(Recarga recarga){
+    public Recarga novaRecarga(Recarga recarga){
         recarga.setStatus(StatusRecarga.PENDENTE);
         Recarga salva = recargaRepository.save(recarga);
         recargaProducer.enviarRecarga(salva);

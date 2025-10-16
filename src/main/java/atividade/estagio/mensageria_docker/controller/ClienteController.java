@@ -25,7 +25,7 @@ public class ClienteController {
 
     @PostMapping
     public ResponseEntity<Cliente> novoCliente(@RequestBody Cliente cliente){
-        Cliente novoCliente = clienteService.cadastrarCliente(cliente);
+        Cliente novoCliente = clienteService.novoCliente(cliente);
         return ResponseEntity.status(201).body(novoCliente);
     }
 

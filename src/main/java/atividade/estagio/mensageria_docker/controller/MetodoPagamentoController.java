@@ -26,7 +26,7 @@ public class MetodoPagamentoController {
 
     @PostMapping()
     public ResponseEntity<MetodoPagamento> novoPagamento(@RequestBody MetodoPagamento pagamento){
-        MetodoPagamento novoPagamento = metodoPagamentoService.cadastrarPagamento(pagamento);
+        MetodoPagamento novoPagamento = metodoPagamentoService.novoPagamento(pagamento);
         return ResponseEntity.status(201).body(novoPagamento);
     }
 

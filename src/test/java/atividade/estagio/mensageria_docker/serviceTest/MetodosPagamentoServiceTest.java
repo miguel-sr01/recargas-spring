@@ -56,7 +56,7 @@ class MetodosPagamentoServiceTest {
         Mockito.when(metodoPagamentoRepository.save(metodoPagamento)).thenReturn(metodoPagamento);
 
         //Act (Agir / Executar)
-        MetodoPagamento novoMetodo = metodoPagamentoService.cadastrarPagamento(metodoPagamento);
+        MetodoPagamento novoMetodo = metodoPagamentoService.novoPagamento(metodoPagamento);
 
         //Assert (Verificar / Afirmar)
         Assertions.assertNotNull(novoMetodo);
@@ -73,7 +73,7 @@ class MetodosPagamentoServiceTest {
         Mockito.when(metodoPagamentoRepository.save(metodoPagamento)).thenReturn(metodoPagamento);
 
         //Act (Agir / Executar)
-        MetodoPagamento novoMetodo = metodoPagamentoService.cadastrarPagamento(metodoPagamento);
+        MetodoPagamento novoMetodo = metodoPagamentoService.novoPagamento(metodoPagamento);
 
         //Assert (Verificar / Afirmar)
         Assertions.assertNotNull(novoMetodo);

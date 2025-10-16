@@ -60,7 +60,7 @@ class ClienteServiceTest {
         Mockito.when(clienteRepository.save(cliente)).thenReturn(cliente);
 
         //Act (Agir / Executar)
-        Cliente novoCliente = clienteService.cadastrarCliente(cliente);
+        Cliente novoCliente = clienteService.novoCliente(cliente);
 
         //Assert (Verificar / Afirmar)
         Assertions.assertNotNull(novoCliente);

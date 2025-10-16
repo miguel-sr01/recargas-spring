@@ -64,7 +64,7 @@ class RecargaServiceTest {
         Mockito.when(recargaRepository.save(recarga)).thenReturn(recarga);
 
         //Act (Agir / Executar)
-        Recarga novaRecarga = recargaService.cadastrarRecarga(recarga);
+        Recarga novaRecarga = recargaService.novaRecarga(recarga);
 
         //Assert (Verificar / Afirmar)
         Assertions.assertNotNull(novaRecarga);
@@ -83,7 +83,7 @@ class RecargaServiceTest {
         Mockito.when(recargaRepository.save(recarga)).thenReturn(recarga);
 
         //Act (Agir / Executar)
-        Recarga novaRecarga = recargaService.cadastrarRecarga(recarga);
+        Recarga novaRecarga = recargaService.novaRecarga(recarga);
 
         //Assert (Verificar / Afirmar)
         Assertions.assertNotNull(novaRecarga);

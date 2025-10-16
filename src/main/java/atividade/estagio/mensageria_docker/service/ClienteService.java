@@ -19,7 +19,7 @@ public class ClienteService {
         return clienteRepository.findAll();
     }
 
-    public Cliente cadastrarCliente(Cliente cliente){
+    public Cliente novoCliente(Cliente cliente){
         return clienteRepository.save(cliente);
     }
 

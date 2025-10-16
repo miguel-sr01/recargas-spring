@@ -18,7 +18,7 @@ public class MetodoPagamentoService {
         return metodoPagamentoRepository.findAll();
     }
 
-    public MetodoPagamento cadastrarPagamento(MetodoPagamento pagamento){
+    public MetodoPagamento novoPagamento(MetodoPagamento pagamento){
         return metodoPagamentoRepository.save(pagamento);
     }
 
