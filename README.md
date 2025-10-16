@@ -106,6 +106,10 @@ mensageria-docker/
 4 - Verifique o Status da recarga mudar de "PENDENTE" para "SUCESSO" ou "FALHA" após o processamento da fila RabbitMq.
 
 
+## VERIFICAR PROCESSAMENTO DA FILA RABBITMQ
+1 - Acesse a url: http://localhost:15672  
+2 - Credenciais padrão da mensageria -> User: guest / Senha: guest
+
 ## DICAS DE USO
 1 - No métedo POST, não passar o ID das entidades pois este é gerado automaticamente.  
 2 - Deve-se seguir a seguinte ordem de criação de entidades: Cliente -> Metodo_Pagamento -> Recarga.  
