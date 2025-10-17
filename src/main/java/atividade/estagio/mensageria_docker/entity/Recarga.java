@@ -4,7 +4,7 @@ package atividade.estagio.mensageria_docker.entity;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
+
 
 @Entity
 @Table(name = "recargas")

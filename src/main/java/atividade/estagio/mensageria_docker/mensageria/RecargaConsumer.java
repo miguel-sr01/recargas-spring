@@ -31,29 +31,28 @@ public class RecargaConsumer {
 
     public void processar(Recarga recarga, String tipoFila) {
         try {
-            System.out.println("[" + tipoFila + "] Mensagem recebida, aguardando 10 segundos para processar...");
-            Thread.sleep(10000); // ⏳ espera 5 segundos antes de processar
+            System.out.println("Mensagem recebida da fila "+ tipoFila + " aguardando 10 segundos para processar...");
+            Thread.sleep(10000); // espera 10 segundos antes de processar
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
 
         boolean sucesso = random.nextBoolean();
-        if (sucesso) {
+
+        if (recarga.getValor() >= 100) {
             recarga.setStatus(StatusRecarga.SUCESSO);
-        }else{
-            recarga.setStatus(StatusRecarga.FALHA);
-        }
-
-        recargaRepository.save(recarga);
-
-
-        if (sucesso) {
+            recargaRepository.save(recarga);
             System.out.println("[" + tipoFila + "] Recarga realizada com SUCESSO para o número: " + recarga.getNumeroCelular());
-
-        }else{
+        } else if (sucesso) {
+            recarga.setStatus(StatusRecarga.SUCESSO);
+            recargaRepository.save(recarga);
+            System.out.println("[" + tipoFila + "] Recarga realizada com SUCESSO para o número: " + recarga.getNumeroCelular());
+        }else {
+            recarga.setStatus(StatusRecarga.FALHA);
+            recargaRepository.save(recarga);
             System.out.println("[" + tipoFila + "] Recarga FALHOU para o número: " + recarga.getNumeroCelular());
+
         }
     }
-
 
 }
