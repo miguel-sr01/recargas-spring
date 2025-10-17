@@ -23,7 +23,7 @@ public class RecargaController {
         return ResponseEntity.status(200).body(lista);
     }
 
-    @GetMapping("/cliente/{clienteId}")
+    @GetMapping("/{id}/cliente")
     public ResponseEntity<List<Recarga>> listarClienteId(@PathVariable Long id){
         List <Recarga> lista = recargaService.listarClientesId(id);
         return ResponseEntity.status(200).body(lista);

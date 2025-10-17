@@ -19,7 +19,7 @@ public class Recarga implements Serializable {
     private String numeroCelular;
 
     @Column(name = "valor")
-    private BigDecimal valor;
+    private int valor;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
@@ -38,7 +38,7 @@ public class Recarga implements Serializable {
     @JoinColumn(name = "metodo_pagamento_id")
     private MetodoPagamento metodoPagamento;
 
-    public Recarga(String numeroCelular, BigDecimal valor, StatusRecarga status, String correlationId) {
+    public Recarga(String numeroCelular, int valor, StatusRecarga status, String correlationId) {
         this.numeroCelular = numeroCelular;
         this.valor = valor;
         this.status = status;
@@ -65,11 +65,11 @@ public class Recarga implements Serializable {
         this.numeroCelular = numeroCelular;
     }
 
-    public BigDecimal getValor() {
+    public int getValor() {
         return valor;
     }
 
-    public void setValor(BigDecimal valor) {
+    public void setValor(int valor) {
         this.valor = valor;
     }
 

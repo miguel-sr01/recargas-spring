@@ -50,7 +50,7 @@ class RecargaServiceTest {
     @DisplayName("Deve verificar se a linha possui tamanho 1")
     void deveRetornarListaClientes() {
         //Arrange (Preparar / Montar o cenário)
-        Recarga recarga = new Recarga("123456", BigDecimal.ONE, StatusRecarga.SUCESSO, "1010");
+        Recarga recarga = new Recarga("123456", 50, StatusRecarga.SUCESSO, "1010");
         Mockito.when(recargaRepository.findAll()).thenReturn(Collections.singletonList(recarga));
 
         //Act (Agir / Executar)
@@ -75,7 +75,7 @@ class RecargaServiceTest {
         metodo.setId(10L);
         metodo.setCliente(cliente);
 
-        Recarga recarga = new Recarga("123456", BigDecimal.ONE, StatusRecarga.SUCESSO, "1010");
+        Recarga recarga = new Recarga("123456", 50, StatusRecarga.SUCESSO, "1010");
         recarga.setCliente(cliente);
         recarga.setMetodoPagamento(metodo);
 
@@ -108,7 +108,7 @@ class RecargaServiceTest {
         metodo.setId(10L);
         metodo.setCliente(cliente);
 
-        Recarga recarga = new Recarga("123456", BigDecimal.ONE, StatusRecarga.SUCESSO, "1010");
+        Recarga recarga = new Recarga("123456", 50, StatusRecarga.SUCESSO, "1010");
         recarga.setCliente(cliente);
         recarga.setMetodoPagamento(metodo);
         recarga.setNumeroCelular("789456");

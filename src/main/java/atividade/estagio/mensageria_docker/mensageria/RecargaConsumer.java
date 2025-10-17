@@ -19,11 +19,19 @@ public class RecargaConsumer {
     private final Random random = new Random();
 
 
-    //O Spring AMQP detecta essa anotação e faz com que o metodo fique escutando a fila
-    @RabbitListener(queues = RabbitMQConfig.QUEUE)
-    public void processarRecarga(Recarga recarga) {
+    @RabbitListener(queues = RabbitMQConfig.QUEUE1)
+    public void processarRecargaGeral(Recarga recarga) {
+        processar(recarga, "GERAL");
+    }
+
+    @RabbitListener(queues = RabbitMQConfig.QUEUE2)
+    public void processarRecargaEspecial(Recarga recarga) {
+        processar(recarga, "ESPECIAL");
+    }
+
+    public void processar(Recarga recarga, String tipoFila) {
         try {
-            System.out.println("Mensagem recebida, aguardando 10 segundos para processar...");
+            System.out.println("[" + tipoFila + "] Mensagem recebida, aguardando 10 segundos para processar...");
             Thread.sleep(10000); // ⏳ espera 5 segundos antes de processar
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
@@ -40,11 +48,12 @@ public class RecargaConsumer {
 
 
         if (sucesso) {
-            System.out.println("Recarga realizada com SUCESSO para o numero: " + recarga.getNumeroCelular());
+            System.out.println("[" + tipoFila + "] Recarga realizada com SUCESSO para o número: " + recarga.getNumeroCelular());
 
         }else{
-            System.out.println("Recarga FALHOU para o numero: " + recarga.getNumeroCelular());
+            System.out.println("[" + tipoFila + "] Recarga FALHOU para o número: " + recarga.getNumeroCelular());
         }
-
     }
+
+
 }
