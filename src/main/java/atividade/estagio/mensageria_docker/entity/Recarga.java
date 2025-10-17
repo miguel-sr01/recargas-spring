@@ -15,7 +15,7 @@ public class Recarga implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "numero_celular", unique = true)
+    @Column(name = "numero_celular")
     private String numeroCelular;
 
     @Column(name = "valor")

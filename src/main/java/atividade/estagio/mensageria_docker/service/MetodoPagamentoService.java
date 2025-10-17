@@ -18,6 +18,10 @@ public class MetodoPagamentoService {
         return metodoPagamentoRepository.findAll();
     }
 
+    public List<MetodoPagamento> listarClientesId(Long clienteId){
+        return metodoPagamentoRepository.findByClienteId(clienteId);
+    }
+
     public MetodoPagamento novoPagamento(MetodoPagamento pagamento){
         return metodoPagamentoRepository.save(pagamento);
     }

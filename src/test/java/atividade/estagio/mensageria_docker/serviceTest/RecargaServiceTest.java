@@ -1,9 +1,12 @@
 package atividade.estagio.mensageria_docker.serviceTest;
 
 
+import atividade.estagio.mensageria_docker.entity.Cliente;
+import atividade.estagio.mensageria_docker.entity.MetodoPagamento;
 import atividade.estagio.mensageria_docker.entity.Recarga;
 import atividade.estagio.mensageria_docker.entity.StatusRecarga;
 import atividade.estagio.mensageria_docker.mensageria.RecargaProducer;
+import atividade.estagio.mensageria_docker.repository.MetodoPagamentoRepository;
 import atividade.estagio.mensageria_docker.repository.RecargaRepository;
 import atividade.estagio.mensageria_docker.service.RecargaService;
 import org.junit.jupiter.api.Assertions;
@@ -19,6 +22,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -30,6 +34,10 @@ class RecargaServiceTest {
 
     @Mock
     private RecargaRepository recargaRepository;
+
+    @Mock
+    private MetodoPagamentoRepository metodoPagamentoRepository;
+
 
     @Mock
     private RecargaProducer recargaProducer;
@@ -59,36 +67,67 @@ class RecargaServiceTest {
     @Test
     @DisplayName("Deve criar uma recarga e verificar seu STATUS")
     void deveCriarRecarga() {
-        //Arrange (Preparar / Montar o cenário)
+        // Arrange (monta o cenário)
+        Cliente cliente = new Cliente();
+        cliente.setId(1L);
+
+        MetodoPagamento metodo = new MetodoPagamento();
+        metodo.setId(10L);
+        metodo.setCliente(cliente);
+
         Recarga recarga = new Recarga("123456", BigDecimal.ONE, StatusRecarga.SUCESSO, "1010");
+        recarga.setCliente(cliente);
+        recarga.setMetodoPagamento(metodo);
+
+        // Mock do repositório de metodo de pagamento
+        Mockito.when(metodoPagamentoRepository.findById(10L)).thenReturn(Optional.of(metodo));
+
+        // Mock do save
         Mockito.when(recargaRepository.save(recarga)).thenReturn(recarga);
 
-        //Act (Agir / Executar)
+        // Act (executa)
         Recarga novaRecarga = recargaService.novaRecarga(recarga);
 
-        //Assert (Verificar / Afirmar)
+        // Assert (verifica)
         Assertions.assertNotNull(novaRecarga);
         Assertions.assertEquals("123456", novaRecarga.getNumeroCelular());
         Assertions.assertEquals(StatusRecarga.PENDENTE, novaRecarga.getStatus());
-        verify(recargaRepository, times(1)).save(novaRecarga);
+        verify(recargaRepository, times(1)).save(recarga);
+        verify(recargaProducer, times(1)).enviarRecarga(recarga);
 
     }
 
     @Test
     @DisplayName("Deve editar um metodo e verificar seu numero de celular")
     void deveEditarRecarga() {
-        //Arrange (Preparar / Montar o cenário)
+        // Arrange (monta o cenário)
+        Cliente cliente = new Cliente();
+        cliente.setId(1L);
+
+        MetodoPagamento metodo = new MetodoPagamento();
+        metodo.setId(10L);
+        metodo.setCliente(cliente);
+
         Recarga recarga = new Recarga("123456", BigDecimal.ONE, StatusRecarga.SUCESSO, "1010");
-        recarga.setNumeroCelular("999999");
+        recarga.setCliente(cliente);
+        recarga.setMetodoPagamento(metodo);
+        recarga.setNumeroCelular("789456");
+
+        // Mock do repositório de metodo de pagamento
+        Mockito.when(metodoPagamentoRepository.findById(10L)).thenReturn(Optional.of(metodo));
+
+        // Mock do save
         Mockito.when(recargaRepository.save(recarga)).thenReturn(recarga);
 
-        //Act (Agir / Executar)
+        // Act (executa)
         Recarga novaRecarga = recargaService.novaRecarga(recarga);
 
-        //Assert (Verificar / Afirmar)
+        // Assert (verifica)
         Assertions.assertNotNull(novaRecarga);
-        Assertions.assertEquals("999999", novaRecarga.getNumeroCelular());
-        verify(recargaRepository, times(1)).save(novaRecarga);
+        Assertions.assertEquals("789456", novaRecarga.getNumeroCelular());
+        Assertions.assertEquals(StatusRecarga.PENDENTE, novaRecarga.getStatus());
+        verify(recargaRepository, times(1)).save(recarga);
+        verify(recargaProducer, times(1)).enviarRecarga(recarga);
 
     }
 
